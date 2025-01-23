@@ -1,0 +1,75 @@
+interview_preparation_notes
+=========================================
+wait and notify and notifyAll()
+
+
+
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+
+class Mythread extends Thread {
+    int sum=0;
+    void run(){
+        for(int i=0;i<=10;i++){
+            sum=sum+i;
+        }
+    }
+}
+    Class Main{
+    
+    public static void main(String[] args) {
+        
+        Mythread mt=new Mythread();
+        mt.start();
+        
+        System.out.println(mt.sumit);
+    }
+}
+what it is going to happened here :-- > it will print the 0 value .
+
+main thread will not wait till run method complete all the things. it will give the out sout.t0 thread will take some time so it will automatically print the sout value .
+
+to make wait of main thread ,We need to use the synchronized block  we can see below 
+
+
+
+
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+
+class Mythread extends Thread {
+    int sum=0;
+    void run(){
+        synchronized(this){
+        for(int i=0;i<=10;i++){
+            sum=sum+i;
+        }
+        //after completion of this ,we need to call the notify() method to invoke the main thread .
+        this.notify() ;
+        }
+    }
+}
+    Class Main{
+    
+    public static void main(String[] args) {
+        
+        Mythread mt=new Mythread();
+     
+        mt.start();
+      
+       synchronized(mt){
+       mt.wait() //this method pause the execution of main thread and will release the object to mt and it give the log to mt 
+           
+       }
+
+        System.out.println(mt.sum);
+    }
+}
+
+in this case it will give the summation of all the numbers as output.
+
+ 
+
+================================================================================================
+thread.join() :- > join method of thread class waits for a  thread to die. It is used when want one thread to wait to complete another.
+ 
